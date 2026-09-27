@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+
+function generateEventId() {
+  return Math.random().toString(36).substring(2, 8);
+}
 
 export default function CreateEvent() {
   const router = useRouter();
@@ -16,7 +21,10 @@ export default function CreateEvent() {
   function handleCreateEvent(e: React.FormEvent) {
     e.preventDefault();
 
+    const eventId = generateEventId();
+
     const event = {
+      id: eventId,
       eventName,
       sport,
       location,
@@ -25,38 +33,44 @@ export default function CreateEvent() {
       teams: Number(teams),
     };
 
-    sessionStorage.setItem("sporthub-event", JSON.stringify(event));
+    sessionStorage.setItem(
+      "sporthub-event",
+      JSON.stringify(event)
+    );
 
-    router.push("/event");
+    sessionStorage.removeItem("sporthub-teams");
+    sessionStorage.removeItem("sporthub-matches");
+
+    router.push(`/event/${eventId}`);
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-12 text-white">
+    <main className="min-h-screen bg-zinc-950 px-6 py-12 text-white">
       <div className="mx-auto max-w-3xl">
 
         <div className="mb-10">
           <a
             href="/"
-            className="text-sm text-blue-400 hover:text-blue-300"
+            className="flex items-center gap-1 text-sm text-amber-500 hover:text-amber-400"
           >
-            ← Back to SportHub
+            <ArrowLeft className="h-4 w-4" />
+            Back to SportHub
           </a>
 
-          <h1 className="mt-6 text-4xl font-bold">
-            Create an Event 🏆
+          <h1 className="mt-6 text-3xl font-bold">
+            Create an event
           </h1>
 
-          <p className="mt-3 text-slate-400">
+          <p className="mt-3 text-zinc-400">
             Set up your sports event and start managing your tournament.
           </p>
         </div>
 
         <form
           onSubmit={handleCreateEvent}
-          className="space-y-6 rounded-3xl border border-slate-800 bg-slate-900/70 p-8"
+          className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-900/70 p-8"
         >
 
-          {/* Event Name */}
           <div>
             <label className="mb-2 block text-sm font-medium">
               Event Name
@@ -68,11 +82,10 @@ export default function CreateEvent() {
               value={eventName}
               onChange={(e) => setEventName(e.target.value)}
               placeholder="e.g. Noida Basketball Cup 2026"
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none transition focus:border-blue-500"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none transition focus:border-amber-500"
             />
           </div>
 
-          {/* Sport */}
           <div>
             <label className="mb-2 block text-sm font-medium">
               Sport
@@ -81,7 +94,7 @@ export default function CreateEvent() {
             <select
               value={sport}
               onChange={(e) => setSport(e.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
             >
               <option>Basketball</option>
               <option>Football</option>
@@ -93,7 +106,6 @@ export default function CreateEvent() {
             </select>
           </div>
 
-          {/* Location */}
           <div>
             <label className="mb-2 block text-sm font-medium">
               Location
@@ -105,11 +117,10 @@ export default function CreateEvent() {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               placeholder="e.g. Noida Sports Complex"
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
             />
           </div>
 
-          {/* Date */}
           <div>
             <label className="mb-2 block text-sm font-medium">
               Event Date
@@ -120,11 +131,10 @@ export default function CreateEvent() {
               required
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
             />
           </div>
 
-          {/* Format */}
           <div>
             <label className="mb-2 block text-sm font-medium">
               Tournament Format
@@ -133,7 +143,7 @@ export default function CreateEvent() {
             <select
               value={format}
               onChange={(e) => setFormat(e.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
             >
               <option>Knockout</option>
               <option>League</option>
@@ -141,7 +151,6 @@ export default function CreateEvent() {
             </select>
           </div>
 
-          {/* Teams */}
           <div>
             <label className="mb-2 block text-sm font-medium">
               Number of Teams
@@ -150,7 +159,7 @@ export default function CreateEvent() {
             <select
               value={teams}
               onChange={(e) => setTeams(e.target.value)}
-              className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500"
+              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
             >
               <option>4</option>
               <option>6</option>
@@ -161,12 +170,11 @@ export default function CreateEvent() {
             </select>
           </div>
 
-          {/* Submit */}
           <button
             type="submit"
-            className="w-full rounded-xl bg-blue-600 px-6 py-4 font-semibold transition hover:bg-blue-500"
+            className="w-full rounded-lg bg-amber-500 px-6 py-4 font-semibold text-zinc-950 transition hover:bg-amber-400"
           >
-            Create Event 🚀
+            Create Event
           </button>
 
         </form>

@@ -1,6 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {
+  Trophy,
+  MapPin,
+  CalendarDays,
+  Zap,
+  Users,
+  X,
+} from "lucide-react";
 
 type EventData = {
   eventName: string;
@@ -479,7 +487,7 @@ export default function EventDashboard() {
 
   if (!event) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+      <main className="flex min-h-screen items-center justify-center bg-zinc-950 text-white">
         <div className="text-center">
 
           <h1 className="text-3xl font-bold">
@@ -488,7 +496,7 @@ export default function EventDashboard() {
 
           <a
             href="/create"
-            className="mt-6 inline-block rounded-xl bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-500"
+            className="mt-6 inline-block rounded-lg bg-amber-500 px-6 py-3 font-semibold text-zinc-950 hover:bg-amber-400"
           >
             Create Event
           </a>
@@ -509,10 +517,10 @@ export default function EventDashboard() {
   const champion = getChampion();
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen bg-zinc-950 text-white">
 
       {/* HEADER */}
-      <header className="border-b border-slate-800">
+      <header className="border-b border-zinc-800">
 
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
 
@@ -520,14 +528,12 @@ export default function EventDashboard() {
             href="/"
             className="text-xl font-bold"
           >
-            Sport<span className="text-blue-500">
-              Hub
-            </span>
+            Sport<span className="text-amber-500">Hub</span>
           </a>
 
           <a
             href="/create"
-            className="rounded-lg border border-slate-700 px-4 py-2 text-sm hover:bg-slate-900"
+            className="rounded-lg border border-zinc-700 px-4 py-2 text-sm hover:bg-zinc-900"
           >
             + New Event
           </a>
@@ -539,33 +545,36 @@ export default function EventDashboard() {
       <div className="mx-auto max-w-6xl px-6 py-10">
 
         {/* EVENT HEADER */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-8">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-8">
 
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
 
             <div>
 
-              <div className="mb-3 inline-flex rounded-full bg-blue-500/10 px-3 py-1 text-sm text-blue-400">
-                🏆 {event.sport}
+              <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-3 py-1 text-sm text-amber-400">
+                <Trophy className="h-3.5 w-3.5" />
+                {event.sport}
               </div>
 
-              <h1 className="text-4xl font-bold">
+              <h1 className="text-3xl font-bold">
                 {event.eventName}
               </h1>
 
-              <p className="mt-3 text-slate-400">
-                📍 {event.location}
+              <p className="mt-3 flex items-center gap-2 text-zinc-400">
+                <MapPin className="h-4 w-4" />
+                {event.location}
               </p>
 
-              <p className="mt-1 text-slate-400">
-                📅 {event.date}
+              <p className="mt-1 flex items-center gap-2 text-zinc-400">
+                <CalendarDays className="h-4 w-4" />
+                {event.date}
               </p>
 
             </div>
 
-            <div className="rounded-2xl border border-slate-700 bg-slate-950 p-5 text-center">
+            <div className="rounded-xl border border-zinc-700 bg-zinc-950 p-5 text-center">
 
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-zinc-400">
                 Format
               </p>
 
@@ -582,9 +591,9 @@ export default function EventDashboard() {
         {/* STATS */}
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6">
 
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-zinc-400">
               Teams
             </p>
 
@@ -594,9 +603,9 @@ export default function EventDashboard() {
 
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6">
 
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-zinc-400">
               Matches
             </p>
 
@@ -606,13 +615,13 @@ export default function EventDashboard() {
 
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6">
 
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-zinc-400">
               Completed
             </p>
 
-            <p className="mt-2 text-3xl font-bold text-green-400">
+            <p className="mt-2 text-3xl font-bold text-emerald-400">
               {completedMatches}
             </p>
 
@@ -631,7 +640,7 @@ export default function EventDashboard() {
                 Teams
               </h2>
 
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="mt-1 text-sm text-zinc-400">
                 {teams.length} / {event.teams} teams
               </p>
 
@@ -640,7 +649,7 @@ export default function EventDashboard() {
             <button
               onClick={() => setShowAddTeam(true)}
               disabled={teams.length >= event.teams}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-40"
             >
               + Add Team
             </button>
@@ -649,7 +658,7 @@ export default function EventDashboard() {
 
           {teams.length === 0 ? (
 
-            <div className="rounded-2xl border border-dashed border-slate-700 p-8 text-center text-slate-400">
+            <div className="rounded-xl border border-dashed border-zinc-700 p-8 text-center text-zinc-400">
               No teams added yet.
             </div>
 
@@ -661,15 +670,15 @@ export default function EventDashboard() {
 
                 <div
                   key={team.id}
-                  className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5"
+                  className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-5"
                 >
 
                   <div className="flex items-center justify-between">
 
                     <div className="flex items-center gap-4">
 
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-xl">
-                        🏀
+                      <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-amber-500/10">
+                        <Users className="h-5 w-5 text-amber-500" />
                       </div>
 
                       <div>
@@ -678,7 +687,7 @@ export default function EventDashboard() {
                           {team.name}
                         </p>
 
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-zinc-400">
                           Captain: {team.captain}
                         </p>
 
@@ -718,7 +727,7 @@ export default function EventDashboard() {
                 Knockout Bracket
               </h2>
 
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="mt-1 text-sm text-zinc-400">
                 Winners automatically advance after each round.
               </p>
 
@@ -729,7 +738,7 @@ export default function EventDashboard() {
               {matches.length > 0 && (
                 <button
                   onClick={clearFixtures}
-                  className="rounded-lg border border-slate-700 px-4 py-2 text-sm hover:bg-slate-900"
+                  className="rounded-lg border border-zinc-700 px-4 py-2 text-sm hover:bg-zinc-900"
                 >
                   Clear Bracket
                 </button>
@@ -738,9 +747,10 @@ export default function EventDashboard() {
               <button
                 onClick={generateFixtures}
                 disabled={teams.length < 2}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex items-center gap-1.5 rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                ⚡ Generate Bracket
+                <Zap className="h-4 w-4" />
+                Generate Bracket
               </button>
 
             </div>
@@ -749,17 +759,15 @@ export default function EventDashboard() {
 
           {matches.length === 0 ? (
 
-            <div className="rounded-2xl border border-dashed border-slate-700 bg-slate-900/40 p-10 text-center">
+            <div className="rounded-xl border border-dashed border-zinc-700 bg-zinc-900/40 p-10 text-center">
 
-              <div className="text-4xl">
-                🏆
-              </div>
+              <Trophy className="mx-auto h-9 w-9 text-zinc-600" />
 
               <h3 className="mt-4 text-xl font-semibold">
                 Bracket not generated
               </h3>
 
-              <p className="mt-2 text-slate-400">
+              <p className="mt-2 text-zinc-400">
                 Add your teams and generate the knockout bracket.
               </p>
 
@@ -773,18 +781,18 @@ export default function EventDashboard() {
 
                 <div
                   key={match.id}
-                  className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6"
+                  className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6"
                 >
 
                   <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
 
                     <div className="min-w-[150px]">
 
-                      <p className="text-sm font-medium text-blue-400">
+                      <p className="text-sm font-medium text-amber-400">
                         {match.round}
                       </p>
 
-                      <p className="mt-1 text-xs text-slate-500">
+                      <p className="mt-1 text-xs text-zinc-500">
                         Match {index + 1}
                       </p>
 
@@ -798,13 +806,13 @@ export default function EventDashboard() {
 
                       {match.status === "Completed" ? (
 
-                        <span className="rounded-lg bg-slate-950 px-4 py-2 text-green-400">
+                        <span className="rounded-lg bg-zinc-950 px-4 py-2 text-emerald-400">
                           {match.score1} - {match.score2}
                         </span>
 
                       ) : (
 
-                        <span className="text-sm text-slate-500">
+                        <span className="text-sm text-zinc-500">
                           VS
                         </span>
 
@@ -820,7 +828,7 @@ export default function EventDashboard() {
 
                       {match.status === "Completed" ? (
 
-                        <span className="rounded-full bg-green-500/10 px-3 py-1 text-sm text-green-400">
+                        <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-sm text-emerald-400">
                           Winner: {match.winner}
                         </span>
 
@@ -830,7 +838,7 @@ export default function EventDashboard() {
                           onClick={() =>
                             openScore(match)
                           }
-                          className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold hover:bg-blue-500"
+                          className="rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-zinc-950 hover:bg-amber-400"
                         >
                           Enter Score
                         </button>
@@ -856,13 +864,11 @@ export default function EventDashboard() {
 
           <section className="mt-10">
 
-            <div className="rounded-3xl border border-yellow-500/30 bg-yellow-500/5 p-10 text-center">
+            <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-10 text-center">
 
-              <div className="text-7xl">
-                🏆
-              </div>
+              <Trophy className="mx-auto h-14 w-14 text-amber-400" />
 
-              <p className="mt-5 text-sm uppercase tracking-widest text-yellow-400">
+              <p className="mt-5 text-sm uppercase tracking-widest text-amber-400">
                 Tournament Champion
               </p>
 
@@ -870,7 +876,7 @@ export default function EventDashboard() {
                 {champion}
               </h2>
 
-              <p className="mt-3 text-slate-400">
+              <p className="mt-3 text-zinc-400">
                 Congratulations!
               </p>
 
@@ -887,9 +893,9 @@ export default function EventDashboard() {
             Tournament Records
           </h2>
 
-          <div className="overflow-hidden rounded-2xl border border-slate-800">
+          <div className="overflow-hidden rounded-xl border border-zinc-800">
 
-            <div className="grid grid-cols-5 bg-slate-900 px-5 py-4 text-sm text-slate-400">
+            <div className="grid grid-cols-5 bg-zinc-900 px-5 py-4 text-sm text-zinc-400">
 
               <span>Team</span>
               <span>Played</span>
@@ -903,18 +909,18 @@ export default function EventDashboard() {
 
               <div
                 key={row.team}
-                className="grid grid-cols-5 border-t border-slate-800 bg-slate-950 px-5 py-4"
+                className="grid grid-cols-5 border-t border-zinc-800 bg-zinc-950 px-5 py-4 transition hover:bg-zinc-900/60"
               >
 
                 <span className="font-semibold">
                   {index + 1}. {row.team}
                 </span>
 
-                <span className="text-slate-400">
+                <span className="text-zinc-400">
                   {row.played}
                 </span>
 
-                <span className="text-green-400">
+                <span className="text-emerald-400">
                   {row.wins}
                 </span>
 
@@ -922,7 +928,7 @@ export default function EventDashboard() {
                   {row.losses}
                 </span>
 
-                <span className="font-bold text-blue-400">
+                <span className="font-bold text-amber-400">
                   {row.points}
                 </span>
 
@@ -941,7 +947,7 @@ export default function EventDashboard() {
 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-6">
 
-          <div className="w-full max-w-md rounded-3xl border border-slate-700 bg-slate-900 p-7">
+          <div className="w-full max-w-md rounded-2xl border border-zinc-700 bg-zinc-900 p-7">
 
             <div className="flex items-center justify-between">
 
@@ -953,9 +959,9 @@ export default function EventDashboard() {
                 onClick={() =>
                   setShowAddTeam(false)
                 }
-                className="text-2xl text-slate-400 hover:text-white"
+                className="text-zinc-400 hover:text-white"
               >
-                ×
+                <X className="h-5 w-5" />
               </button>
 
             </div>
@@ -973,7 +979,7 @@ export default function EventDashboard() {
                   setTeamName(e.target.value)
                 }
                 placeholder="Team name"
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500"
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
               />
 
               <input
@@ -983,14 +989,14 @@ export default function EventDashboard() {
                   setCaptainName(e.target.value)
                 }
                 placeholder="Captain name"
-                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-blue-500"
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
               />
 
               <button
                 type="submit"
-                className="w-full rounded-xl bg-blue-600 px-6 py-3 font-semibold hover:bg-blue-500"
+                className="w-full rounded-lg bg-amber-500 px-6 py-3 font-semibold text-zinc-950 hover:bg-amber-400"
               >
-                Add Team 🚀
+                Add Team
               </button>
 
             </form>
@@ -1006,13 +1012,13 @@ export default function EventDashboard() {
 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-6">
 
-          <div className="w-full max-w-md rounded-3xl border border-slate-700 bg-slate-900 p-7">
+          <div className="w-full max-w-md rounded-2xl border border-zinc-700 bg-zinc-900 p-7">
 
             <h2 className="text-2xl font-bold">
               Enter Score
             </h2>
 
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-zinc-400">
               Winner will automatically advance.
             </p>
 
@@ -1025,7 +1031,7 @@ export default function EventDashboard() {
 
                 <div>
 
-                  <label className="mb-2 block text-sm text-slate-400">
+                  <label className="mb-2 block text-sm text-zinc-400">
                     {
                       matches.find(
                         (match) =>
@@ -1042,14 +1048,14 @@ export default function EventDashboard() {
                     onChange={(e) =>
                       setScore1(e.target.value)
                     }
-                    className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-4 text-center text-2xl font-bold outline-none focus:border-blue-500"
+                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-4 text-center text-2xl font-bold outline-none focus:border-amber-500"
                   />
 
                 </div>
 
                 <div>
 
-                  <label className="mb-2 block text-sm text-slate-400">
+                  <label className="mb-2 block text-sm text-zinc-400">
                     {
                       matches.find(
                         (match) =>
@@ -1066,7 +1072,7 @@ export default function EventDashboard() {
                     onChange={(e) =>
                       setScore2(e.target.value)
                     }
-                    className="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-4 text-center text-2xl font-bold outline-none focus:border-blue-500"
+                    className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-4 text-center text-2xl font-bold outline-none focus:border-amber-500"
                   />
 
                 </div>
@@ -1080,14 +1086,14 @@ export default function EventDashboard() {
                   onClick={() =>
                     setScoreMatchId(null)
                   }
-                  className="flex-1 rounded-xl border border-slate-700 px-5 py-3 font-semibold hover:bg-slate-800"
+                  className="flex-1 rounded-lg border border-zinc-700 px-5 py-3 font-semibold hover:bg-zinc-800"
                 >
                   Cancel
                 </button>
 
                 <button
                   type="submit"
-                  className="flex-1 rounded-xl bg-blue-600 px-5 py-3 font-semibold hover:bg-blue-500"
+                  className="flex-1 rounded-lg bg-amber-500 px-5 py-3 font-semibold text-zinc-950 hover:bg-amber-400"
                 >
                   Save Result
                 </button>

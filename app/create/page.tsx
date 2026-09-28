@@ -2,13 +2,72 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 
-function generateEventId() {
-  return Math.random().toString(36).substring(2, 8);
+const sportImages: Record<string, string> = {
+  Football:
+    "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1600&q=85",
+
+  Basketball:
+    "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1600&q=85",
+
+  Cricket:
+    "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1600&q=85",
+
+  Badminton:
+    "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1600&q=85",
+
+  Running:
+    "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=1600&q=85",
+
+  Fitness:
+    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=85",
+
+  Esports:
+    "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=85",
+};
+
+function getEventImage(sport: string, eventName: string) {
+  // First preference: selected sport
+  if (sportImages[sport]) {
+    return sportImages[sport];
+  }
+
+  // Fallback: try to understand the event name
+  const name = eventName.toLowerCase();
+
+  if (name.includes("basketball") || name.includes("hoops")) {
+    return sportImages.Basketball;
+  }
+
+  if (name.includes("football") || name.includes("soccer")) {
+    return sportImages.Football;
+  }
+
+  if (name.includes("cricket")) {
+    return sportImages.Cricket;
+  }
+
+  if (name.includes("badminton")) {
+    return sportImages.Badminton;
+  }
+
+  if (name.includes("running") || name.includes("run") || name.includes("marathon")) {
+    return sportImages.Running;
+  }
+
+  if (name.includes("fitness") || name.includes("gym")) {
+    return sportImages.Fitness;
+  }
+
+  if (name.includes("esports") || name.includes("gaming")) {
+    return sportImages.Esports;
+  }
+
+  // Safe fallback
+  return sportImages.Football;
 }
 
-export default function CreateEvent() {
+export default function CreateEventPage() {
   const router = useRouter();
 
   const [eventName, setEventName] = useState("");
@@ -18,25 +77,32 @@ export default function CreateEvent() {
   const [format, setFormat] = useState("Knockout");
   const [teams, setTeams] = useState("8");
 
-  function handleCreateEvent(e: React.FormEvent) {
-    e.preventDefault();
+  const eventImage = getEventImage(sport, eventName);
 
-    const eventId = generateEventId();
+  function handleCreateEvent() {
+    if (!eventName.trim() || !location.trim() || !date) {
+      alert("Please fill in the event name, location and date.");
+      return;
+    }
+
+    const eventId = Math.random()
+      .toString(36)
+      .substring(2, 8)
+      .toUpperCase();
 
     const event = {
       id: eventId,
-      eventName,
+      eventName: eventName.trim(),
       sport,
-      location,
+      location: location.trim(),
       date,
       format,
-      teams: Number(teams),
+      teams,
+      image: eventImage,
+      createdAt: new Date().toISOString(),
     };
 
-    sessionStorage.setItem(
-      "sporthub-event",
-      JSON.stringify(event)
-    );
+    sessionStorage.setItem("sporthub-event", JSON.stringify(event));
 
     sessionStorage.removeItem("sporthub-teams");
     sessionStorage.removeItem("sporthub-matches");
@@ -45,140 +111,178 @@ export default function CreateEvent() {
   }
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-6 py-12 text-white">
-      <div className="mx-auto max-w-3xl">
+    <main className="min-h-screen bg-[#f7f7f5]">
+      <section className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
+        <div className="grid gap-8 lg:grid-cols-[1fr_420px]">
+          {/* Form */}
+          <div>
+            <p className="text-sm font-medium text-[#e94352]">
+              Host an event
+            </p>
 
-        <div className="mb-10">
-          <a
-            href="/"
-            className="flex items-center gap-1 text-sm text-amber-500 hover:text-amber-400"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to SportHub
-          </a>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[#15171b] sm:text-4xl">
+              Create your event
+            </h1>
 
-          <h1 className="mt-6 text-3xl font-bold">
-            Create an event
-          </h1>
+            <p className="mt-2 max-w-xl text-[#686c74]">
+              Set up your game, tournament or activity and invite people to
+              join.
+            </p>
 
-          <p className="mt-3 text-zinc-400">
-            Set up your sports event and start managing your tournament.
-          </p>
+            <div className="mt-8 rounded-2xl border border-[#e5e5e2] bg-white p-6 sm:p-8">
+              <div className="space-y-6">
+                {/* Event name */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-[#15171b]">
+                    Event name
+                  </label>
+
+                  <input
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    placeholder="e.g. Noida Basketball Night"
+                    className="w-full rounded-xl border border-[#d6d6d2] px-4 py-3 text-sm outline-none focus:border-[#e94352]"
+                  />
+                </div>
+
+                {/* Sport */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-[#15171b]">
+                    Sport
+                  </label>
+
+                  <select
+                    value={sport}
+                    onChange={(e) => setSport(e.target.value)}
+                    className="w-full rounded-xl border border-[#d6d6d2] bg-white px-4 py-3 text-sm outline-none focus:border-[#e94352]"
+                  >
+                    <option>Basketball</option>
+                    <option>Football</option>
+                    <option>Cricket</option>
+                    <option>Badminton</option>
+                    <option>Running</option>
+                    <option>Fitness</option>
+                    <option>Esports</option>
+                  </select>
+                </div>
+
+                {/* Location */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-[#15171b]">
+                    Location
+                  </label>
+
+                  <input
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder="e.g. Noida Stadium"
+                    className="w-full rounded-xl border border-[#d6d6d2] px-4 py-3 text-sm outline-none focus:border-[#e94352]"
+                  />
+                </div>
+
+                {/* Date */}
+                <div>
+                  <label className="mb-2 block text-sm font-medium text-[#15171b]">
+                    Date
+                  </label>
+
+                  <input
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className="w-full rounded-xl border border-[#d6d6d2] px-4 py-3 text-sm outline-none focus:border-[#e94352]"
+                  />
+                </div>
+
+                {/* Format + teams */}
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-[#15171b]">
+                      Format
+                    </label>
+
+                    <select
+                      value={format}
+                      onChange={(e) => setFormat(e.target.value)}
+                      className="w-full rounded-xl border border-[#d6d6d2] bg-white px-4 py-3 text-sm outline-none focus:border-[#e94352]"
+                    >
+                      <option>Knockout</option>
+                      <option>League</option>
+                      <option>League + Knockout</option>
+                      <option>Friendly</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="mb-2 block text-sm font-medium text-[#15171b]">
+                      Teams / players
+                    </label>
+
+                    <input
+                      type="number"
+                      min="2"
+                      value={teams}
+                      onChange={(e) => setTeams(e.target.value)}
+                      className="w-full rounded-xl border border-[#d6d6d2] px-4 py-3 text-sm outline-none focus:border-[#e94352]"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleCreateEvent}
+                  className="w-full rounded-xl bg-[#15171b] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#2a2c30]"
+                >
+                  Create event
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Live preview */}
+          <div>
+            <p className="mb-3 text-sm font-medium text-[#686c74]">
+              Live preview
+            </p>
+
+            <div className="overflow-hidden rounded-2xl border border-[#e5e5e2] bg-white">
+              <div
+                className="event-image h-64"
+                style={{
+                  backgroundImage: `url(${eventImage})`,
+                }}
+              />
+
+              <div className="p-5">
+                <p className="text-xs font-medium text-[#e94352]">
+                  {sport}
+                </p>
+
+                <h2 className="mt-1 text-xl font-semibold text-[#15171b]">
+                  {eventName || "Your event name"}
+                </h2>
+
+                <p className="mt-3 text-sm text-[#686c74]">
+                  {date || "Choose a date"}
+                </p>
+
+                <p className="mt-1 text-sm text-[#686c74]">
+                  {location || "Add a location"}
+                </p>
+
+                <div className="mt-5 flex items-center justify-between border-t border-[#eeeeeb] pt-4 text-sm">
+                  <span className="text-[#686c74]">
+                    {format}
+                  </span>
+
+                  <span className="font-medium text-[#15171b]">
+                    {teams} teams
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <form
-          onSubmit={handleCreateEvent}
-          className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-900/70 p-8"
-        >
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Event Name
-            </label>
-
-            <input
-              type="text"
-              required
-              value={eventName}
-              onChange={(e) => setEventName(e.target.value)}
-              placeholder="e.g. Noida Basketball Cup 2026"
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none transition focus:border-amber-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Sport
-            </label>
-
-            <select
-              value={sport}
-              onChange={(e) => setSport(e.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
-            >
-              <option>Basketball</option>
-              <option>Football</option>
-              <option>Cricket</option>
-              <option>Volleyball</option>
-              <option>Badminton</option>
-              <option>Table Tennis</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Location
-            </label>
-
-            <input
-              type="text"
-              required
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="e.g. Noida Sports Complex"
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Event Date
-            </label>
-
-            <input
-              type="date"
-              required
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Tournament Format
-            </label>
-
-            <select
-              value={format}
-              onChange={(e) => setFormat(e.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
-            >
-              <option>Knockout</option>
-              <option>League</option>
-              <option>Group Stage + Knockout</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Number of Teams
-            </label>
-
-            <select
-              value={teams}
-              onChange={(e) => setTeams(e.target.value)}
-              className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-4 py-3 outline-none focus:border-amber-500"
-            >
-              <option>4</option>
-              <option>6</option>
-              <option>8</option>
-              <option>12</option>
-              <option>16</option>
-              <option>32</option>
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-amber-500 px-6 py-4 font-semibold text-zinc-950 transition hover:bg-amber-400"
-          >
-            Create Event
-          </button>
-
-        </form>
-      </div>
+      </section>
     </main>
   );
 }

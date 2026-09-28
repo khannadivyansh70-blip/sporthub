@@ -1,72 +1,373 @@
-import { Trophy, BarChart3, Zap, ArrowRight } from "lucide-react";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import {
+  ArrowRight,
+  CalendarDays,
+  ChevronRight,
+  Dumbbell,
+  Heart,
+  MapPin,
+  Search,
+  Trophy,
+  Users,
+} from "lucide-react";
+import { useMemo, useState } from "react";
+
+const events = [
+  {
+    id: "noida-night-league",
+    title: "Noida Night Basketball League",
+    sport: "Basketball",
+    date: "Oct 4",
+    time: "7:00 PM",
+    venue: "Noida Sports Complex",
+    location: "Sector 21, Noida",
+    price: "₹299",
+    image:
+      "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1000&q=85",
+  },
+  {
+    id: "delhi-five-a-side",
+    title: "Delhi Five-a-Side Football",
+    sport: "Football",
+    date: "Oct 5",
+    time: "6:30 PM",
+    venue: "PlayAll Arena",
+    location: "Sector 62, Noida",
+    price: "₹399",
+    image:
+      "https://images.unsplash.com/photo-1553778263-73a83bab9b0c?auto=format&fit=crop&w=1000&q=85",
+  },
+  {
+    id: "ncr-cricket-open",
+    title: "NCR Cricket Open",
+    sport: "Cricket",
+    date: "Oct 6",
+    time: "8:00 AM",
+    venue: "Jaypee Greens Ground",
+    location: "Greater Noida",
+    price: "₹499",
+    image:
+      "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1000&q=85",
+  },
+  {
+    id: "noida-badminton-open",
+    title: "Noida Badminton Open",
+    sport: "Badminton",
+    date: "Oct 7",
+    time: "10:00 AM",
+    venue: "Smash Arena",
+    location: "Sector 137, Noida",
+    price: "₹199",
+    image:
+      "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1000&q=85",
+  },
+];
+
+const categories = [
+  { name: "Football", emoji: "⚽" },
+  { name: "Basketball", emoji: "🏀" },
+  { name: "Cricket", emoji: "🏏" },
+  { name: "Badminton", emoji: "🏸" },
+  { name: "Running", emoji: "🏃" },
+  { name: "Fitness", emoji: "🏋️" },
+  { name: "Esports", emoji: "🎮" },
+  { name: "More", emoji: "•••" },
+];
+
+export default function HomePage() {
+  const [search, setSearch] = useState("");
+
+  const filteredEvents = useMemo(() => {
+    if (!search.trim()) return events;
+
+    const query = search.toLowerCase();
+
+    return events.filter(
+      (event) =>
+        event.title.toLowerCase().includes(query) ||
+        event.sport.toLowerCase().includes(query) ||
+        event.venue.toLowerCase().includes(query)
+    );
+  }, [search]);
+
   return (
-    <main className="min-h-screen bg-zinc-950 text-white">
-      <section className="mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-6 text-center">
+    <main className="min-h-screen bg-[var(--background)]">
 
-        {/* Hero */}
-        <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl">
-          Run your bracket
-          <span className="block text-amber-500">
-            without touching a spreadsheet.
-          </span>
-        </h1>
+      {/* HERO */}
+      <section className="mx-auto max-w-[1400px] px-6 pt-4 md:px-10">
+        <div
+          className="relative min-h-[510px] overflow-hidden rounded-2xl bg-black bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1800&q=90')",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/65" />
 
-        <p className="mt-6 max-w-xl text-lg text-zinc-400">
-          Set up a tournament, register teams, generate fixtures, and
-          track live scores — then share one link with everyone watching.
-        </p>
+          <div className="relative flex min-h-[510px] items-center px-8 py-12 md:px-16">
+            <div className="max-w-3xl text-white">
 
-        {/* Buttons */}
-        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">
+                Local sports events
+              </p>
 
-          <a
-            href="/create"
-            className="flex items-center gap-2 rounded-lg bg-amber-500 px-7 py-3 font-semibold text-zinc-950 transition hover:bg-amber-400"
-          >
-            Create an Event
-            <ArrowRight className="h-4 w-4" />
-          </a>
+              <h1 className="mt-5 text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">
+                Real games.
+                <br />
+                Real people.
+              </h1>
 
-          <a
-            href="/create"
-            className="px-7 py-3 font-semibold text-zinc-300 transition hover:text-white"
-          >
-            See how it works
-          </a>
+              <p className="mt-6 text-lg text-white/85">
+                Find, join and host sports events in your area.
+              </p>
 
+              {/* SEARCH */}
+              <div className="mt-7 flex max-w-2xl overflow-hidden rounded-xl bg-white p-1">
+                <Search className="ml-4 mt-3 h-5 w-5 shrink-0 text-zinc-500" />
+
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Try 'football in Noida' or 'basketball this weekend'"
+                  className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-black outline-none"
+                />
+
+                <button
+                  onClick={() => {
+                    const element = document.getElementById("events");
+                    element?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="rounded-lg bg-[var(--brand)] px-6 font-semibold text-white"
+                >
+                  Search
+                </button>
+              </div>
+
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="rounded-full border border-white/30 px-4 py-2 text-sm">
+                  Noida
+                </span>
+
+                <span className="rounded-full border border-white/30 px-4 py-2 text-sm">
+                  Any date
+                </span>
+
+                <span className="rounded-full border border-white/30 px-4 py-2 text-sm">
+                  All sports
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        {/* Features */}
-        <div className="mt-20 grid w-full max-w-4xl grid-cols-1 gap-4 sm:grid-cols-3">
+      {/* CATEGORIES */}
+      <section className="mx-auto max-w-[1320px] px-6 pt-4 md:px-10">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6 text-left">
-            <Trophy className="h-6 w-6 text-amber-500" />
-            <h3 className="mt-4 font-semibold">Any Sport</h3>
-            <p className="mt-2 text-sm text-zinc-400">
-              Basketball, football, cricket and more.
-            </p>
-          </div>
+          {categories.map((category) => (
+            <Link
+              key={category.name}
+              href={
+                category.name === "More"
+                  ? "/explore"
+                  : `/explore?sport=${category.name}`
+              }
+              className="flex h-24 flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-white transition hover:-translate-y-0.5 hover:shadow-sm"
+            >
+              <span className="text-2xl">
+                {category.emoji}
+              </span>
 
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6 text-left">
-            <BarChart3 className="h-6 w-6 text-amber-500" />
-            <h3 className="mt-4 font-semibold">Live Standings</h3>
-            <p className="mt-2 text-sm text-zinc-400">
-              Keep track of scores and rankings.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 p-6 text-left">
-            <Zap className="h-6 w-6 text-amber-500" />
-            <h3 className="mt-4 font-semibold">Easy Setup</h3>
-            <p className="mt-2 text-sm text-zinc-400">
-              Create your tournament in minutes.
-            </p>
-          </div>
+              <span className="mt-2 text-sm font-medium">
+                {category.name}
+              </span>
+            </Link>
+          ))}
 
         </div>
       </section>
+
+      {/* EVENTS */}
+      <section
+        id="events"
+        className="mx-auto max-w-[1320px] px-6 py-12 md:px-10"
+      >
+        <div className="grid gap-8 lg:grid-cols-[1fr_315px]">
+
+          {/* MAIN */}
+          <div>
+
+            <div className="mb-5 flex items-end justify-between">
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Popular near Noida
+                </h2>
+
+                <p className="mt-1 text-sm text-[var(--muted)]">
+                  Events people in your area are checking out.
+                </p>
+              </div>
+
+              <Link
+                href="/explore"
+                className="flex items-center gap-1 text-sm font-semibold text-[var(--brand)]"
+              >
+                See all
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+
+              {filteredEvents.map((event) => (
+                <Link
+                  key={event.id}
+                  href={`/event/${event.id}`}
+                  className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white transition hover:-translate-y-1 hover:shadow-md"
+                >
+                  <div className="relative h-52 overflow-hidden">
+
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+                    />
+
+                    <span className="absolute left-3 top-3 rounded-full bg-[var(--brand)] px-3 py-1 text-xs font-semibold text-white">
+                      {event.sport}
+                    </span>
+
+                    <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white">
+                      <Heart className="h-4 w-4" />
+                    </span>
+                  </div>
+
+                  <div className="p-5">
+
+                    <h3 className="text-lg font-bold">
+                      {event.title}
+                    </h3>
+
+                    <div className="mt-3 space-y-2 text-sm text-[var(--muted)]">
+
+                      <p className="flex items-center gap-2">
+                        <CalendarDays className="h-4 w-4" />
+                        {event.date} · {event.time}
+                      </p>
+
+                      <p className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        {event.venue}
+                      </p>
+
+                    </div>
+
+                    <div className="mt-5 flex items-center justify-between border-t border-[var(--border)] pt-4">
+
+                      <div>
+                        <p className="text-xs text-[var(--subtle)]">
+                          Starting from
+                        </p>
+
+                        <p className="font-bold">
+                          {event.price}
+                        </p>
+                      </div>
+
+                      <span className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-white">
+                        View event
+                      </span>
+
+                    </div>
+                  </div>
+                </Link>
+              ))}
+
+            </div>
+          </div>
+
+          {/* WEEKEND */}
+          <aside className="rounded-2xl border border-[var(--border)] bg-white">
+
+            <div className="border-b border-[var(--border)] p-5">
+              <div className="flex items-center gap-2">
+                <CalendarDays className="h-5 w-5 text-[var(--brand)]" />
+
+                <h2 className="font-bold">
+                  Events this weekend
+                </h2>
+              </div>
+            </div>
+
+            <div className="divide-y divide-[var(--border)]">
+
+              {events.slice(0, 3).map((event) => (
+                <Link
+                  key={event.id}
+                  href={`/event/${event.id}`}
+                  className="block p-5 transition hover:bg-[var(--surface-soft)]"
+                >
+                  <p className="text-sm font-bold">
+                    {event.title}
+                  </p>
+
+                  <p className="mt-2 text-xs text-[var(--muted)]">
+                    {event.date} · {event.time}
+                  </p>
+
+                  <p className="mt-1 text-xs text-[var(--muted)]">
+                    {event.location}
+                  </p>
+                </Link>
+              ))}
+
+            </div>
+
+            <Link
+              href="/explore"
+              className="flex items-center justify-between p-5 text-sm font-semibold text-[var(--brand)]"
+            >
+              Explore all events
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+
+          </aside>
+
+        </div>
+      </section>
+
+      {/* HOST CTA */}
+      <section className="mx-auto max-w-[1320px] px-6 pb-14 md:px-10">
+        <div className="rounded-2xl bg-[var(--foreground)] px-7 py-10 text-white md:flex md:items-center md:justify-between md:px-10">
+
+          <div>
+            <p className="text-sm text-white/60">
+              Have a game coming up?
+            </p>
+
+            <h2 className="mt-1 text-3xl font-bold">
+              Host it on Stardance.
+            </h2>
+
+            <p className="mt-2 max-w-xl text-sm text-white/65">
+              Create your event, invite players and manage everything in one place.
+            </p>
+          </div>
+
+          <Link
+            href="/create"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-white px-5 py-3 text-sm font-semibold text-[var(--foreground)] md:mt-0"
+          >
+            Host an event
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+
+        </div>
+      </section>
+
     </main>
   );
 }

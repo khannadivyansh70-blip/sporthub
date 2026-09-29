@@ -2,29 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { getSportImage, sportImages } from "@/lib/sport-images";
 
-const sportImages: Record<string, string> = {
-  Football:
-    "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1600&q=85",
 
-  Basketball:
-    "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1600&q=85",
 
-  Cricket:
-    "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1600&q=85",
 
-  Badminton:
-    "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1600&q=85",
-
-  Running:
-    "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=1600&q=85",
-
-  Fitness:
-    "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=85",
-
-  Esports:
-    "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=85",
-};
 
 function getEventImage(sport: string, eventName: string) {
   // First preference: selected sport

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Suspense, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { getSportImage } from "@/lib/sport-images";
 
 const sports = [
   "All",
@@ -33,8 +34,7 @@ const events: Event[] = [
     date: "Sat, 3 Oct · 7:00 PM",
     venue: "Noida Stadium",
     price: "₹299",
-    image:
-      "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1200&q=80",
+    image: getSportImage("Football"),
   },
   {
     id: "delhi-five-a-side",
@@ -43,8 +43,7 @@ const events: Event[] = [
     date: "Sun, 4 Oct · 5:30 PM",
     venue: "Thyagaraj Sports Complex",
     price: "₹399",
-    image:
-      "https://images.unsplash.com/photo-1553778263-73a83bab9b0c?auto=format&fit=crop&w=1200&q=80",
+    image: getSportImage("Football"),
   },
   {
     id: "ncr-cricket-open",
@@ -53,8 +52,7 @@ const events: Event[] = [
     date: "Sat, 10 Oct · 8:00 AM",
     venue: "Greater Noida",
     price: "₹499",
-    image:
-      "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1200&q=80",
+    image: getSportImage("Cricket"),
   },
   {
     id: "noida-badminton-open",
@@ -63,8 +61,7 @@ const events: Event[] = [
     date: "Sun, 11 Oct · 9:00 AM",
     venue: "Sector 62 Sports Club",
     price: "₹249",
-    image:
-      "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1200&q=80",
+    image: getSportImage("Badminton"),
   },
 ];
 

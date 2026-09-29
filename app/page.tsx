@@ -13,6 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { getSportImage } from "@/lib/sport-images";
 
 const events = [
   {
@@ -37,7 +38,7 @@ const events = [
     location: "Sector 62, Noida",
     price: "₹399",
     image:
-      "https://images.unsplash.com/photo-1553778263-73a83bab9b0c?auto=format&fit=crop&w=1000&q=85",
+      "hero-football.jpeg",
   },
   {
     id: "ncr-cricket-open",
@@ -49,7 +50,7 @@ const events = [
     location: "Greater Noida",
     price: "₹499",
     image:
-      "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1000&q=85",
+      "hero-cricket.jpeg",
   },
   {
     id: "noida-badminton-open",
@@ -61,18 +62,18 @@ const events = [
     location: "Sector 137, Noida",
     price: "₹199",
     image:
-      "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1000&q=85",
+      "hero-badminton.jpeg",
   },
 ];
 
 const categories = [
-  { name: "Football", emoji: "⚽" },
-  { name: "Basketball", emoji: "🏀" },
-  { name: "Cricket", emoji: "🏏" },
-  { name: "Badminton", emoji: "🏸" },
-  { name: "Running", emoji: "🏃" },
-  { name: "Fitness", emoji: "🏋️" },
-  { name: "Esports", emoji: "🎮" },
+  { name: "Football", image: getSportImage("Football") },
+  { name: "Basketball", image: getSportImage("Basketball") },
+  { name: "Cricket", image: getSportImage("Cricket") },
+  { name: "Badminton", image: getSportImage("Badminton") },
+  { name: "Running", image: getSportImage("Running") },
+  { name: "Fitness", image: getSportImage("Fitness") },
+  { name: "Esports", image: getSportImage("Esports") },
   { name: "More", emoji: "•••" },
 ];
 
@@ -100,9 +101,8 @@ export default function HomePage() {
         <div
           className="relative min-h-[510px] overflow-hidden rounded-2xl bg-black bg-cover bg-center"
           style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1800&q=90')",
-          }}
+  backgroundImage: "url(/hero-basketball.jpeg.jpg)",
+}}
         >
           <div className="absolute inset-0 bg-black/65" />
 
@@ -113,14 +113,14 @@ export default function HomePage() {
                 Local sports events
               </p>
 
-              <h1 className="mt-5 text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">
-                Real games.
+              <h1 className="mt-5 text-5xl font-bold leading-[0.95] tracking-tight md:text-7xl">
+                Play.
                 <br />
-                Real people.
+                What you play best.
               </h1>
 
               <p className="mt-6 text-lg text-white/85">
-                Find, join and host sports events in your area.
+                Find events, join them , enjoy.
               </p>
 
               {/* SEARCH */}
@@ -175,11 +175,19 @@ export default function HomePage() {
                   ? "/explore"
                   : `/explore?sport=${category.name}`
               }
-              className="flex h-24 flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-white transition hover:-translate-y-0.5 hover:shadow-sm"
+              className="group flex flex-col items-center justify-center"
             >
-              <span className="text-2xl">
-                {category.emoji}
-              </span>
+              {category.name === "More" ? (
+  <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-gray-100 text-2xl font-bold">
+    •••
+  </div>
+) : (
+  <img
+    src={category.image}
+    alt={category.name}
+    className="h-24 w-24 rounded-2xl object-cover transition-transform duration-300 group-hover:scale-105"
+  />
+)}
 
               <span className="mt-2 text-sm font-medium">
                 {category.name}

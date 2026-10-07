@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SiteHeader from "@/components/site-header";
 import "./globals.css";
+import AuthGate from "@/components/auth-gate";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,8 +27,10 @@ export default function RootLayout({
     >
       <body>
         <div className="EventMade-page"> 
-          <SiteHeader />
-          {children}
+          <AuthGate>
+  <SiteHeader />
+  {children}
+</AuthGate>
         </div>
       </body>
     </html>

@@ -218,9 +218,12 @@ const [userName, setUserName] = useState("");
               <div className="border-t border-[#e5e5e2] p-2">
                 <button
                   onClick={() => {
-                    setProfileOpen(false);
-                    alert("You are currently using EventMade locally.");
-                  }}
+  localStorage.removeItem("eventmade-logged-in");
+  setLoggedIn(false);
+  setUserName("");
+  setProfileOpen(false);
+  router.push("/");
+}}
                   className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm text-[#686c74] transition hover:bg-[#f7f7f5]"
                 >
                   <LogOut size={17} />

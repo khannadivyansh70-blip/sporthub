@@ -22,10 +22,12 @@ export default function SiteHeader() {
   const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+const [userName, setUserName] = useState("");
 
   const profileRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+    useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         profileRef.current &&
@@ -40,6 +42,17 @@ export default function SiteHeader() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, []);
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("eventmade-logged-in");
+    const savedAccount = localStorage.getItem("eventmade-account");
+
+    if (loggedIn === "true" && savedAccount) {
+      const account = JSON.parse(savedAccount);
+
+      setLoggedIn(true);
+      setUserName(account.name);
+    }
   }, []);
 
   const performSearch = (value: string) => {
@@ -73,8 +86,8 @@ export default function SiteHeader() {
           onClick={closeMenus}
           className="shrink-0 text-xl font-semibold tracking-tight"
         >
-          <span className="text-[#171717]">star</span>
-<span className="text-[#176b4d]">dance</span>
+          <span className="text-[#171717]">Event</span>
+<span className="text-[#176b4d]">Made</span>
         </Link>
 
         <button className="hidden items-center gap-1.5 rounded-lg px-2 py-2 text-sm text-[#555960] transition hover:bg-[#f7f7f5] md:flex">
@@ -161,12 +174,14 @@ export default function SiteHeader() {
             <div className="absolute right-0 top-12 w-64 overflow-hidden rounded-xl border border-[#e5e5e2] bg-white shadow-lg">
               <div className="border-b border-[#e5e5e2] px-4 py-4">
                 <p className="text-sm font-semibold text-[#15171b]">
-                  Your Stardance
-                </p>
+  {loggedIn ? `Hi, ${userName}` : "Your EventMade"}
+</p>
 
                 <p className="mt-1 text-xs text-[#92969d]">
-                  Manage your events and activity
-                </p>
+  {loggedIn
+    ? "Manage your events and activity"
+    : "Sign in to manage your events"}
+</p>
               </div>
 
               <div className="p-2">
@@ -204,7 +219,7 @@ export default function SiteHeader() {
                 <button
                   onClick={() => {
                     setProfileOpen(false);
-                    alert("You are currently using Stardance locally.");
+                    alert("You are currently using EventMade locally.");
                   }}
                   className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm text-[#686c74] transition hover:bg-[#f7f7f5]"
                 >
@@ -281,4 +296,18 @@ export default function SiteHeader() {
       )}
     </header>
   );
+}
+
+function handleClickOutside(this: Document, ev: MouseEvent) {
+  throw new Error("Function not implemented.");
+}
+
+
+function setMenuOpen(arg0: boolean) {
+  throw new Error("Function not implemented.");
+}
+
+
+function setProfileOpen(arg0: boolean) {
+  throw new Error("Function not implemented.");
 }

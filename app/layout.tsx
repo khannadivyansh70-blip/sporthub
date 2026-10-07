@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Stardance — Discover what's happening near you",
+  title: "EventMade — Discover what's happening near you",
   description:
-    "Discover, host and follow local sports events and tournaments with Stardance.",
+    "Discover, host and follow local sports events and tournaments with EventMade.",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
       className={`${inter.variable} antialiased`}
     >
       <body>
-        <div className="stardance-page">
+        <div className="EventMade-page"> 
           <SiteHeader />
           {children}
         </div>

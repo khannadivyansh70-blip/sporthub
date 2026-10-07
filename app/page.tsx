@@ -5,14 +5,11 @@ import {
   ArrowRight,
   CalendarDays,
   ChevronRight,
-  Dumbbell,
   Heart,
   MapPin,
   Search,
-  Trophy,
-  Users,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { getSportImage } from "@/lib/sport-images";
 
 const events = [
@@ -37,8 +34,7 @@ const events = [
     venue: "PlayAll Arena",
     location: "Sector 62, Noida",
     price: "₹399",
-    image:
-      "hero-football.jpeg",
+    image: "hero-football.jpeg",
   },
   {
     id: "ncr-cricket-open",
@@ -49,8 +45,7 @@ const events = [
     venue: "Jaypee Greens Ground",
     location: "Greater Noida",
     price: "₹499",
-    image:
-      "hero-cricket.jpeg",
+    image: "hero-cricket.jpeg",
   },
   {
     id: "noida-badminton-open",
@@ -61,8 +56,7 @@ const events = [
     venue: "Smash Arena",
     location: "Sector 137, Noida",
     price: "₹199",
-    image:
-      "hero-badminton.jpeg",
+    image: "hero-badminton.jpeg",
   },
 ];
 
@@ -74,41 +68,49 @@ const categories = [
   { name: "Running", image: getSportImage("Running") },
   { name: "Fitness", image: getSportImage("Fitness") },
   { name: "Esports", image: getSportImage("Esports") },
-  { name: "More", emoji: "•••" },
+  { name: "More" },
 ];
 
 export default function HomePage() {
   const [search, setSearch] = useState("");
 
-  const filteredEvents = useMemo(() => {
-    if (!search.trim()) return events;
+  const searchEvents = events.filter((event) => {
+    const text = search.toLowerCase().trim();
 
-    const query = search.toLowerCase();
+    if (!text) {
+      return true;
+    }
 
-    return events.filter(
-      (event) =>
-        event.title.toLowerCase().includes(query) ||
-        event.sport.toLowerCase().includes(query) ||
-        event.venue.toLowerCase().includes(query)
+    return (
+      event.title.toLowerCase().includes(text) ||
+      event.sport.toLowerCase().includes(text) ||
+      event.venue.toLowerCase().includes(text)
     );
-  }, [search]);
+  });
+
+  function goToEvents() {
+    const eventsSection = document.getElementById("events");
+
+    if (eventsSection) {
+      eventsSection.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }
 
   return (
     <main className="min-h-screen bg-[var(--background)]">
-
-      {/* HERO */}
       <section className="mx-auto max-w-[1400px] px-6 pt-4 md:px-10">
         <div
           className="relative min-h-[510px] overflow-hidden rounded-2xl bg-black bg-cover bg-center"
           style={{
-  backgroundImage: "url(/hero-basketball.jpeg.jpg)",
-}}
+            backgroundImage: "url(/hero-basketball.jpeg.jpg)",
+          }}
         >
           <div className="absolute inset-0 bg-black/65" />
 
           <div className="relative flex min-h-[510px] items-center px-8 py-12 md:px-16">
             <div className="max-w-3xl text-white">
-
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">
                 Local sports events
               </p>
@@ -120,25 +122,21 @@ export default function HomePage() {
               </h1>
 
               <p className="mt-6 text-lg text-white/85">
-                Find events, join them , enjoy.
+                Find events, join them, enjoy.
               </p>
 
-              {/* SEARCH */}
               <div className="mt-7 flex max-w-2xl overflow-hidden rounded-xl bg-white p-1">
                 <Search className="ml-4 mt-3 h-5 w-5 shrink-0 text-zinc-500" />
 
                 <input
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(event) => setSearch(event.target.value)}
                   placeholder="Try 'football in Noida' or 'basketball this weekend'"
                   className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-black outline-none"
                 />
 
                 <button
-                  onClick={() => {
-                    const element = document.getElementById("events");
-                    element?.scrollIntoView({ behavior: "smooth" });
-                  }}
+                  onClick={goToEvents}
                   className="rounded-lg bg-[var(--brand)] px-6 font-semibold text-white"
                 >
                   Search
@@ -163,10 +161,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CATEGORIES */}
       <section className="mx-auto max-w-[1320px] px-6 pt-4 md:px-10">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
-
           {categories.map((category) => (
             <Link
               key={category.name}
@@ -178,41 +174,34 @@ export default function HomePage() {
               className="group flex flex-col items-center justify-center"
             >
               {category.name === "More" ? (
-  <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-gray-100 text-2xl font-bold">
-    •••
-  </div>
-) : (
-  <img
-    src={category.image}
-    alt={category.name}
-    className="h-24 w-24 rounded-2xl object-cover transition-transform duration-300 group-hover:scale-105"
-  />
-)}
+                <div className="flex h-24 w-24 items-center justify-center rounded-xl bg-gray-100 text-2xl font-bold">
+                  •••
+                </div>
+              ) : (
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="h-24 w-24 rounded-2xl object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              )}
 
               <span className="mt-2 text-sm font-medium">
                 {category.name}
               </span>
             </Link>
           ))}
-
         </div>
       </section>
 
-      {/* EVENTS */}
       <section
         id="events"
         className="mx-auto max-w-[1320px] px-6 py-12 md:px-10"
       >
         <div className="grid gap-8 lg:grid-cols-[1fr_315px]">
-
-          {/* MAIN */}
           <div>
-
             <div className="mb-5 flex items-end justify-between">
               <div>
-                <h2 className="text-2xl font-bold">
-                  Popular near Noida
-                </h2>
+                <h2 className="text-2xl font-bold">Popular near Noida</h2>
 
                 <p className="mt-1 text-sm text-[var(--muted)]">
                   Events people in your area are checking out.
@@ -229,15 +218,13 @@ export default function HomePage() {
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
-
-              {filteredEvents.map((event) => (
+              {searchEvents.map((event) => (
                 <Link
                   key={event.id}
                   href={`/event/${event.id}`}
                   className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white transition hover:-translate-y-1 hover:shadow-md"
                 >
                   <div className="relative h-52 overflow-hidden">
-
                     <img
                       src={event.image}
                       alt={event.title}
@@ -254,13 +241,9 @@ export default function HomePage() {
                   </div>
 
                   <div className="p-5">
-
-                    <h3 className="text-lg font-bold">
-                      {event.title}
-                    </h3>
+                    <h3 className="text-lg font-bold">{event.title}</h3>
 
                     <div className="mt-3 space-y-2 text-sm text-[var(--muted)]">
-
                       <p className="flex items-center gap-2">
                         <CalendarDays className="h-4 w-4" />
                         {event.date} · {event.time}
@@ -270,57 +253,44 @@ export default function HomePage() {
                         <MapPin className="h-4 w-4" />
                         {event.venue}
                       </p>
-
                     </div>
 
                     <div className="mt-5 flex items-center justify-between border-t border-[var(--border)] pt-4">
-
                       <div>
                         <p className="text-xs text-[var(--subtle)]">
                           Starting from
                         </p>
 
-                        <p className="font-bold">
-                          {event.price}
-                        </p>
+                        <p className="font-bold">{event.price}</p>
                       </div>
 
                       <span className="rounded-lg bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-white">
                         View event
                       </span>
-
                     </div>
                   </div>
                 </Link>
               ))}
-
             </div>
           </div>
 
-          {/* WEEKEND */}
           <aside className="rounded-2xl border border-[var(--border)] bg-white">
-
             <div className="border-b border-[var(--border)] p-5">
               <div className="flex items-center gap-2">
                 <CalendarDays className="h-5 w-5 text-[var(--brand)]" />
 
-                <h2 className="font-bold">
-                  Events this weekend
-                </h2>
+                <h2 className="font-bold">Events this weekend</h2>
               </div>
             </div>
 
             <div className="divide-y divide-[var(--border)]">
-
               {events.slice(0, 3).map((event) => (
                 <Link
                   key={event.id}
                   href={`/event/${event.id}`}
                   className="block p-5 transition hover:bg-[var(--surface-soft)]"
                 >
-                  <p className="text-sm font-bold">
-                    {event.title}
-                  </p>
+                  <p className="text-sm font-bold">{event.title}</p>
 
                   <p className="mt-2 text-xs text-[var(--muted)]">
                     {event.date} · {event.time}
@@ -331,7 +301,6 @@ export default function HomePage() {
                   </p>
                 </Link>
               ))}
-
             </div>
 
             <Link
@@ -341,27 +310,22 @@ export default function HomePage() {
               Explore all events
               <ArrowRight className="h-4 w-4" />
             </Link>
-
           </aside>
-
         </div>
       </section>
 
-      {/* HOST CTA */}
       <section className="mx-auto max-w-[1320px] px-6 pb-14 md:px-10">
         <div className="rounded-2xl bg-[var(--foreground)] px-7 py-10 text-white md:flex md:items-center md:justify-between md:px-10">
-
           <div>
-            <p className="text-sm text-white/60">
-              Have a game coming up?
-            </p>
+            <p className="text-sm text-white/60">Have a game coming up?</p>
 
             <h2 className="mt-1 text-3xl font-bold">
-              Host it on Stardance.
+              Host it on EventMade.
             </h2>
 
             <p className="mt-2 max-w-xl text-sm text-white/65">
-              Create your event, invite players and manage everything in one place.
+              Create your event, invite players and manage everything in one
+              place.
             </p>
           </div>
 
@@ -372,10 +336,8 @@ export default function HomePage() {
             Host an event
             <ArrowRight className="h-4 w-4" />
           </Link>
-
         </div>
       </section>
-
     </main>
   );
 }

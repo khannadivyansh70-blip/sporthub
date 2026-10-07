@@ -112,7 +112,7 @@ export default function HomePage() {
           <div className="relative flex min-h-[510px] items-center px-8 py-12 md:px-16">
             <div className="max-w-3xl text-white">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">
-                Local sports events
+                Sports & more near you
               </p>
 
               <h1 className="mt-5 text-5xl font-bold leading-[0.95] tracking-tight md:text-7xl">
@@ -131,7 +131,7 @@ export default function HomePage() {
                 <input
                   value={search}
                   onChange={(event) => setSearch(event.target.value)}
-                  placeholder="Try 'football in Noida' or 'basketball this weekend'"
+                  placeholder="Try a event near you"
                   className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-black outline-none"
                 />
 
@@ -145,15 +145,15 @@ export default function HomePage() {
 
               <div className="mt-3 flex flex-wrap gap-2">
                 <span className="rounded-full border border-white/30 px-4 py-2 text-sm">
-                  Noida
+                  Nearby You
                 </span>
 
                 <span className="rounded-full border border-white/30 px-4 py-2 text-sm">
-                  Any date
+                  Any time
                 </span>
 
                 <span className="rounded-full border border-white/30 px-4 py-2 text-sm">
-                  All sports
+                  All sports and events 
                 </span>
               </div>
             </div>
@@ -204,7 +204,7 @@ export default function HomePage() {
                 <h2 className="text-2xl font-bold">Popular near Noida</h2>
 
                 <p className="mt-1 text-sm text-[var(--muted)]">
-                  Events people in your area are checking out.
+                  Checkout events happening near you.
                 </p>
               </div>
 
@@ -222,9 +222,9 @@ export default function HomePage() {
                 <Link
                   key={event.id}
                   href={`/event/${event.id}`}
-                  className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white transition hover:-translate-y-1 hover:shadow-md"
+                  className="group overflow-hidden rounded-2xl border border-[var(--border)] bg-white transition hover:shadow-md"
                 >
-                  <div className="relative h-52 overflow-hidden">
+                  <div className="relative h-56 overflow-hidden">
                     <img
                       src={event.image}
                       alt={event.title}
@@ -241,7 +241,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="p-5">
-                    <h3 className="text-lg font-bold">{event.title}</h3>
+                    <h3 className="text-lg font-semibold leading-snug">{event.title}</h3>
 
                     <div className="mt-3 space-y-2 text-sm text-[var(--muted)]">
                       <p className="flex items-center gap-2">
@@ -279,7 +279,7 @@ export default function HomePage() {
               <div className="flex items-center gap-2">
                 <CalendarDays className="h-5 w-5 text-[var(--brand)]" />
 
-                <h2 className="font-bold">Events this weekend</h2>
+                <h2 className="font-bold">Events upcoming</h2>
               </div>
             </div>
 

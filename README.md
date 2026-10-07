@@ -1,5 +1,9 @@
-EventMade is a website where you can host events such as sports and esports its my first ever project and i will be polishing it more
-in this website you can search for events, join them , host them ,manage them , basicaly do anything you desire 
-i made it because i really struggle finding events related to sports and esports in my locality so this is a passion project which helps me cure my own struggle and also help more people
-the project uses next.js , React , TypeScript , Tailwind CSS , Lucide React , Netlify 
-if you wanna check the website out the link is : https://eventmade.netlify.app/
+EventMade
+A platform for searching,or joining events 
+Live Demo — https://eventmade.netlify.app/
+You can explore the website by just using the above link in chrome 
+What this website got?
+- you can Discover events related to sports gaming or basically anything
+- Join events — find the event you like and join it
+- Host events — you can host your own events
+- Manage events — you can mange the evnents you hosted
